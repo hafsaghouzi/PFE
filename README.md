@@ -13,7 +13,7 @@
 ---
 
 ## 📌 Présentation du projet
-Ce projet vise à concevoir et développer une solution d'aide à la décision pour une PME de restauration à partir de données de ventes réelles[cite: 10]. La chaîne de traitement combine :
+Ce projet vise à concevoir et développer une solution d'aide à la décision pour une PME de restauration à partir de données de ventes réelles. La chaîne de traitement combine :
 * **Big Data & Data Warehouse :** Stockage dans HDFS et modélisation en schéma en étoile sous Hive.
 * **Data Mining :** Analyse des paniers d'achat (MapReduce, règles d'association) et clustering des produits.
 * **Business Intelligence :** Tableau de bord interactif sous Power BI.
