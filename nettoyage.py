@@ -25,3 +25,17 @@ print (df_trans.dtypes)
 
 print(df_trans.describe())
 
+print(df_trans[
+    (df_trans["NetSales"] == 0) |
+    (df_trans["TotalAmount"] == 0)
+])
+print((df_trans["TotalAmount"] == 0).sum())
+print((df_trans["TotalAmount"] == 0).mean() * 100)
+zero_sales = df_trans[df_trans["TotalAmount"] == 0]
+print(zero_sales[["NetSales", "Tax"]].value_counts())
+print(zero_sales["PaymentMethod"].value_counts())
+print(zero_sales["UseLoyaltyCard"].value_counts())
+print(df_trans["UseLoyaltyCard"].value_counts())
+print(pd.crosstab(df_trans["UseLoyaltyCard"], df_trans["TotalAmount"] == 0))
+
+print((df_trans["NetSales"] < 0).sum())
