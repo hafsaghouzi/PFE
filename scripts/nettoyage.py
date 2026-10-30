@@ -1,10 +1,8 @@
 import pandas as pd
 
-pd.read_csv("transactions.csv")
-df_trans = pd.read_csv("transactions.csv")
+df_trans = pd.read_csv("Data/transactions.csv")
 
-pd.read_csv("products.csv")
-df_prod = pd.read_csv("products.csv") 
+df_prod = pd.read_csv("Data/products.csv") 
 
 print (df_trans.head(10))
 
@@ -27,7 +25,7 @@ print(df_trans.describe())
 
 print(df_trans[
     (df_trans["NetSales"] == 0) |
-    (df_trans["TotalAmount"] == 0)
+    (df_trans["TotalAmount"] == 0) 
 ])
 print((df_trans["TotalAmount"] == 0).sum())
 print((df_trans["TotalAmount"] == 0).mean() * 100)
