@@ -82,3 +82,6 @@ print(df_prod["ProductName"].unique())
 
 print("CATEGORIES")
 print(df_prod["Category"].unique())
+
+#ajout de fichier Products_nettoyé.csv
+df_prod.to_csv("Data/Products_nettoyé.csv", index=False)

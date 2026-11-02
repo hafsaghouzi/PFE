@@ -123,3 +123,6 @@ print(df_trans["Time"].head(10))
 # Vérifier le format de la colonne Time
 print("HEURES AVEC FORMAT INCORRECT")
 print(pd.to_datetime(df_trans["Time"], format="%H:%M:%S", errors="coerce").isnull().sum())
+
+#ajout de fichier Transactions_nettoyé.csv
+df_trans.to_csv("Data/Transactions_nettoyé.csv", index=False)
