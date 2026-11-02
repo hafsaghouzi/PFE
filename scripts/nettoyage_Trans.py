@@ -1,8 +1,6 @@
 import pandas as pd
 
-df_trans = pd.read_csv("Data/transactions.csv")
-
-df_prod = pd.read_csv("Data/products.csv") 
+df_trans = pd.read_csv("Data/transactions.csv") 
 
 print (df_trans.head(10))
 
