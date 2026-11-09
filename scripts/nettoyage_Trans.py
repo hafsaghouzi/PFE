@@ -124,5 +124,10 @@ print(df_trans["Time"].head(10))
 print("HEURES AVEC FORMAT INCORRECT")
 print(pd.to_datetime(df_trans["Time"], format="%H:%M:%S", errors="coerce").isnull().sum())
 
+# Corriger l'erreur dans la colonne Items
+print("Lignes avec la faute :", df_trans["Items"].str.contains("Houesblend").sum())
+df_trans["Items"] = df_trans["Items"].str.replace("Houesblend", "Houseblend")
+print("Lignes avec la faute après correction :", df_trans["Items"].str.contains("Houesblend").sum())
+
 #ajout de fichier Transactions_nettoyé.csv
 df_trans.to_csv("Data/Transactions_nettoyé.csv", index=False)
