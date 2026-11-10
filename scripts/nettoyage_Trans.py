@@ -129,5 +129,42 @@ print("Lignes avec la faute :", df_trans["Items"].str.contains("Houesblend").sum
 df_trans["Items"] = df_trans["Items"].str.replace("Houesblend", "Houseblend")
 print("Lignes avec la faute après correction :", df_trans["Items"].str.contains("Houesblend").sum())
 
+# Découpage du numéro de ticket en 3 morceaux
+ticket_outlet = df_trans["ReceiptNumber"].str[:7]    # 7 premiers caractères : le point de vente
+ticket_mois = df_trans["ReceiptNumber"].str[7:10]    # les 3 suivants : le mois (JAN, FEB...)
+ticket_annee = df_trans["ReceiptNumber"].str[10:12]  # les 2 suivants : l'année (25)
+
+# Nombre de tickets dont le point de vente du numéro ≠ colonne Outlet. Attendu : 0
+print("Outlet incohérent :", (ticket_outlet != df_trans["Outlet"]).sum())
+
+# Nombre de tickets dont l'année du numéro ≠ année de la date. Attendu : 0
+print("Année incohérente :", (ticket_annee != df_trans["Date"].dt.strftime("%y")).sum())
+
+# Tableau croisé mois du numéro / mois de la date
+print("Tableau croisé mois du numéro / mois de la date")
+print(pd.crosstab(ticket_mois, df_trans["Date"].dt.month))
+
+# Même point de vente, même date, même heure, mêmes produits, même montant, mais un numéro de ticket différent
+colonnes_test = ["Outlet", "Date", "Time", "Items", "TotalAmount"]
+print("Tickets quasi identiques :", df_trans.duplicated(subset=colonnes_test).sum())
+
+# on exclut les tickets gratuits (division par 0)
+payants = df_trans[df_trans["NetSales"] > 0]   
+# taux de taxe de chaque ticket     
+taux = payants["Tax"] / payants["NetSales"]          
+print("Taux min et max :", taux.min(), taux.max())
+print("Tickets payants contrôlés :", len(payants))
+print("Tickets dont le taux n'est pas de 11 % :", (~taux.between(0.109, 0.111)).sum())
+
+# Nombre de jours entre la première et la dernière date inclus
+nb_jours = (df_trans["Date"].max() - df_trans["Date"].min()).days + 1
+print("Jours dans la période :", nb_jours)
+# Jours avec au moins une vente, pour chaque point de vente
+print("Jours avec au moins une vente par point de vente :")
+print(df_trans.groupby("Outlet")["Date"].nunique())
+# Première et dernière heure de vente de chaque point de vente
+print("Première et dernière heure de vente par point de vente :")
+print(df_trans.groupby("Outlet")["Time"].agg(["min", "max"]))
+
 #ajout de fichier Transactions_nettoyé.csv
 df_trans.to_csv("Data/Transactions_nettoyé.csv", index=False)
