@@ -60,6 +60,25 @@ ecarts_df = comparaison[comparaison["Montant payé"] != comparaison["Somme des p
 #Afficher les 10 premiers tickets avec écart
 print("10 premiers tickets avec écart :")
 print(ecarts_df.head(10))
+print("Classement des tickets avec écart :")
+# rien payé (carte de fidélité)
+gratuits = (montant == 0).sum()  
+# payé moins que le catalogue                                  
+remises = ((montant > 0) & (montant < somme_prix)).sum()  
+# payé plus que le catalogue         
+plus_chers = (montant > somme_prix).sum()                          
+print("Gratuits :", gratuits, "| Remises :", remises, "| Plus chers que le catalogue :", plus_chers)
+
+# Si la condition entre assert et la virgule est fausse, le script s'arrête et affiche le message
+assert ecarts.sum() == 0, "TotalItem incohérent"
+assert len(vendus - catalogue) == 0, "Produits vendus absents du catalogue"
+assert lignes["ProductId"].isna().sum() == 0, "Lignes sans ProductId"
+assert prod["ProductId"].is_unique, "ProductId en double dans le catalogue"
+assert len(lignes) == trans["TotalItem"].sum(), "Lignes ≠ somme de TotalItem"
+
+# Compte les paires (ticket, produit) qui apparaissent plusieurs fois
+doublons_paires = lignes.duplicated(subset=["ReceiptNumber", "ProductId"]).sum()
+print("Tickets avec le même produit deux fois :", doublons_paires)
 
 # enregistrer la table de liaison Ticket_Produit
 lignes[["ReceiptNumber", "ProductId"]].to_csv("Data/Ticket_Produit.csv", index=False)
